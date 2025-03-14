@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.requests_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ t.requests_title }}</h1>
+        <form method="POST" class="lang-form">
+            <select name="language" onchange="this.form.submit()">
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="kn" {% if lang == 'kn' %}selected{% endif %}>ಕನ್ನಡ</option>
+            </select>
+        </form>
+        <form method="POST" class="request-form">
+            <label>{{ t.request_product }}:</label><br>
+            <input type="text" name="product" placeholder="{{ t.request_placeholder }}" required><br>
+            <label>{{ t.requester }}:</label><br>
+            <input type="text" name="requester" required><br>
+            <label>{{ t.request_contact }}:</label><br>
+            <input type="text" name="contact" required><br>
+            <button type="submit">{{ t.submit_request }}</button>
+        </form>
+        <div class="requests">
+            {% if requests %}
+                {% for req in requests %}
+                    <div class="request">
+                        <h3>{{ req[1] }}</h3>
+                        <p>{{ t.requested_by }}: {{ req[2] }}</p>
+                        <p>{{ t.contact }}: {{ req[3] }}</p>
+                        {% if req[4] %}
+                            <p>{{ t.available_from }}: {{ req[4] }} ({{ t.contact }}: {{ req[5] }})</p>
+                        {% else %}
+                            <a href="{{ url_for('respond', request_id=req[0]) }}" class="respond-btn">{{ t.i_have_this }}</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{{ t.no_requests }}</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('index') }}">{{ t.back_to_home }}</a>
+    </div>
+</body>
+</html>

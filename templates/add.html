@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.add_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ t.add_title }}</h1>
+        <form method="POST" class="lang-form">
+            <select name="language" onchange="this.form.submit()">
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="kn" {% if lang == 'kn' %}selected{% endif %}>ಕನ್ನಡ</option>
+            </select>
+        </form>
+        <form method="POST" action="{{ url_for('add') }}" enctype="multipart/form-data" class="form">
+            <label>{{ t.form_title }}:</label><br>
+            <input type="text" name="title" required><br>
+            <label>{{ t.description }}:</label><br>
+            <textarea name="description" required></textarea><br>
+            <label>{{ t.form_price }}:</label><br>
+            <input type="text" name="price" required><br>
+            <label>{{ t.form_seller }}:</label><br>
+            <input type="text" name="seller" required><br>
+            <label>{{ t.form_contact }}:</label><br>
+            <input type="text" name="contact" required><br>
+            <label>{{ t.upload_image }}:</label><br>
+            <input type="file" name="image" accept="image/*"><br>
+            <button type="submit">{{ t.submit }}</button>
+        </form>
+        <a href="{{ url_for('index') }}">{{ t.back_to_home }}</a>
+    </div>
+</body>
+</html>

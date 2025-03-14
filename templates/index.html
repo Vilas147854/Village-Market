@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ t.title }}</h1>
+        <form method="POST" class="lang-form">
+            <select name="language" onchange="this.form.submit()">
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="kn" {% if lang == 'kn' %}selected{% endif %}>ಕನ್ನಡ</option>
+            </select>
+        </form>
+        <div class="actions">
+            <a href="{{ url_for('add') }}" class="add-btn">{{ t.add_listing }}</a>
+            <a href="{{ url_for('requests') }}" class="add-btn">{{ t.view_requests }}</a>
+        </div>
+        <form method="POST" class="search-form">
+            <input type="text" name="search" placeholder="{{ t.search_placeholder }}" required>
+            <button type="submit">{{ t.search_button }}</button>
+        </form>
+        <div class="listings">
+            {% if listings %}
+                {% for listing in listings %}
+                    <div class="listing">
+                        <h3>{{ listing[1] }}</h3>
+                        {% if listing[6] %}
+                            <img src="{{ url_for('static', filename=listing[6]) }}" alt="{{ listing[1] }}" class="listing-img">
+                        {% endif %}
+                        <p>{{ listing[2] }}</p>
+                        <p>{{ t.price }}: {{ listing[3] }}</p>
+                        <p>{{ t.seller }}: {{ listing[4] }}</p>
+                        <p>{{ t.contact }}: {{ listing[5] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{{ t.no_listings }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

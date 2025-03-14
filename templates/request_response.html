@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.respond_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ t.respond_title }}</h1>
+        <form method="POST" class="lang-form">
+            <select name="language" onchange="this.form.submit()">
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="kn" {% if lang == 'kn' %}selected{% endif %}>ಕನ್ನಡ</option>
+            </select>
+        </form>
+        <form method="POST" action="{{ url_for('respond', request_id=request_id) }}" class="form">
+            <label>{{ t.form_seller }}:</label><br>
+            <input type="text" name="seller" required><br>
+            <label>{{ t.form_contact }}:</label><br>
+            <input type="text" name="contact" required><br>
+            <button type="submit">{{ t.submit }}</button>
+        </form>
+        <a href="{{ url_for('requests') }}">{{ t.back_to_requests }}</a>
+    </div>
+</body>
+</html>
